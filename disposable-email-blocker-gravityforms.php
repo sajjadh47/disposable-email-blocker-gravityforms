@@ -1,100 +1,100 @@
 <?php
+
 /**
- * Plugin Name: Disposable Email Blocker - GravityForms
- * Plugin URI: https://wordpress.org/plugins/disposable-email-blocker-wpforms/
- * Author: Sajjad Hossain Sagor
- * Description: Prevent From Submitting Any Disposable/Temporary Emails On GravityForms Forms.
- * Version: 1.0.4
- * Author URI: https://sajjadhsagor.com
- * Text Domain: disposable-email-blocker-gravityforms
+ * The plugin bootstrap file
+ *
+ * This file is read by WordPress to generate the plugin information in the plugin
+ * admin area. This file also includes all of the dependencies used by the plugin,
+ * registers the activation and deactivation functions, and defines a function
+ * that starts the plugin.
+ *
+ * @since             2.0.0
+ * @package           Disposable_Email_Blocker_Gravityforms
+ *
+ * Plugin Name:       Disposable Email Blocker - GravityForms
+ * Plugin URI:        https://wordpress.org/plugins/disposable-email-blocker-gravityforms/
+ * Description:       Prevent From Submitting Any Disposable/Temporary Emails On GravityForms Forms.
+ * Version:           2.0.0
+ * Author:            Sajjad Hossain Sagor
+ * Author URI:        https://sajjadhsagor.com/
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:       disposable-email-blocker-gravityforms
+ * Domain Path:       /languages
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) die;
 
-// plugin root path....
-define( 'DEBGFFORMS_ROOT_DIR', dirname( __FILE__ ) );
+/**
+ * Currently plugin version.
+ */
+define( 'DISPOSABLE_EMAIL_BLOCKER_GRAVITYFORMS_VERSION', '2.0.0' );
 
-// plugin root url....
-define( 'DEBGFFORMS_ROOT_URL', plugin_dir_url( __FILE__ ) );
+/**
+ * Define Plugin Folders Path
+ */
+define( 'DISPOSABLE_EMAIL_BLOCKER_GRAVITYFORMS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
-// plugin version
-define( 'DEBGFFORMS_VERSION', '1.0.4' );
+define( 'DISPOSABLE_EMAIL_BLOCKER_GRAVITYFORMS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-// load translation files...
-add_action( 'plugins_loaded', 'debgfforms_load_plugin_textdomain' );
+define( 'DISPOSABLE_EMAIL_BLOCKER_GRAVITYFORMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
-function debgfforms_load_plugin_textdomain()
-{	
-	load_plugin_textdomain( 'disposable-email-blocker-gravityforms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-}
+// Plugin database table name to add domains list
+define( 'DISPOSABLE_EMAIL_BLOCKER_GRAVITYFORMS_PLUGIN_TABLE_NAME', 'disposable_domains' );
 
-add_filter( 'gform_form_settings', 'debgfforms_add_new_form_field', 10, 2 );
-
-function debgfforms_add_new_form_field( $settings, $form )
-{    
-	$settings[ __( 'Form Options', 'gravityforms' ) ]['block_disposable_emails'] = '
-		<tr>
-			<th>Block Disposable Emails</th>
-			<td><input type="checkbox" ' . checked( rgar( $form, 'block_disposable_emails' ), 'on', false ) . ' name="block_disposable_emails" id="block_disposable_emails">
-				<label for="block_disposable_emails">Enable Blocking Disposable/Temporary Emails</label>
-			</td>
-		</tr>
-		<tr>
-			<th>Disposable Email Found Text</th>
-			<td><input type="text" class="fieldwidth-3" value="' . rgar( $form, 'disposable_emails_found_msg' ) . '" name="disposable_emails_found_msg" id="disposable_emails_found_msg" placeholder="Disposable/Temporary emails are not allowed!">
-			</td>
-		</tr>';
- 
-	return $settings;
-}
- 
-// save your custom form setting
-add_filter( 'gform_pre_form_settings_save', 'save_debgfforms_form_field' );
-
-function save_debgfforms_form_field( $form )
+/**
+ * The code that runs during plugin activation.
+ * This action is documented in includes/class-plugin-activator.php
+ * 
+ * @since    2.0.0
+ */
+function activate_disposable_email_blocker_gravityforms()
 {
-	$form['block_disposable_emails'] = rgpost( 'block_disposable_emails' );
-
-	$form['disposable_emails_found_msg'] = rgpost( 'disposable_emails_found_msg' );	
+	require_once DISPOSABLE_EMAIL_BLOCKER_GRAVITYFORMS_PLUGIN_PATH . 'includes/class-plugin-activator.php';
 	
-	return $form;
+	Disposable_Email_Blocker_Gravityforms_Activator::activate();
 }
 
-// check if disposable email is found and if so then mark form as invalid and show message
+register_activation_hook( __FILE__, 'activate_disposable_email_blocker_gravityforms' );
 
-add_filter( 'gform_field_validation', 'debgfforms_block_disposable_emails', 10, 4 );
-
-function debgfforms_block_disposable_emails( $result, $value, $form, $field )
+/**
+ * The code that runs during plugin deactivation.
+ * This action is documented in includes/class-plugin-deactivator.php
+ * 
+ * @since    2.0.0
+ */
+function deactivate_disposable_email_blocker_gravityforms()
 {
-	// if not blocking is enabled return early	
-	if ( $form['block_disposable_emails'] !== 'on' ) return $result;
+	require_once DISPOSABLE_EMAIL_BLOCKER_GRAVITYFORMS_PLUGIN_PATH . 'includes/class-plugin-deactivator.php';
 	
-	if ( $field->get_input_type() === 'email' )
-	{
-		$msg = ( empty( $form['disposable_emails_found_msg'] ) ) ? 'Disposable/Temporary emails are not allowed! Please use a non temporary email' : $form['disposable_emails_found_msg'];
-
-		if( filter_var( $value, FILTER_VALIDATE_EMAIL ) )
-		{
-			// split on @ and return last value of array (the domain)
-			$domain = explode('@', $value );
-			
-			$domain = array_pop( $domain );
-
-			// get domains list from json file
-			$disposable_emails_db = file_get_contents( DEBGFFORMS_ROOT_DIR . '/assets/data/domains.min.json' );
-
-			// convert json to php array
-			$disposable_emails = json_decode( $disposable_emails_db );
-
-			// check if domain is in disposable db
-			if ( in_array( $domain, $disposable_emails ) )
-			{	
-				$result['is_valid'] = false;
-
-				$result['message']  = $msg;
-			}
-		}
-	}
-
-	return $result;
+	Disposable_Email_Blocker_Gravityforms_Deactivator::deactivate();
 }
+
+register_deactivation_hook( __FILE__, 'deactivate_disposable_email_blocker_gravityforms' );
+
+/**
+ * The core plugin class that is used to define internationalization,
+ * admin-specific hooks, and public-facing site hooks.
+ * 
+ * @since    2.0.0
+ */
+require DISPOSABLE_EMAIL_BLOCKER_GRAVITYFORMS_PLUGIN_PATH . 'includes/class-plugin.php';
+
+/**
+ * Begins execution of the plugin.
+ *
+ * Since everything within the plugin is registered via hooks,
+ * then kicking off the plugin from this point in the file does
+ * not affect the page life cycle.
+ *
+ * @since    2.0.0
+ */
+function run_disposable_email_blocker_gravityforms()
+{
+	$plugin = new Disposable_Email_Blocker_Gravityforms();
+	
+	$plugin->run();
+}
+
+run_disposable_email_blocker_gravityforms();
