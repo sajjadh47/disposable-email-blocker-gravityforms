@@ -4,7 +4,7 @@
  *
  * @since         2.0.0
  * @package       Disposable_Email_Blocker_Gravityforms
- * @subpackage    Disposable_Email_Blocker_Gravityforms/includes
+ * @subpackage    Disposable_Email_Blocker_Gravityforms/languages
  * @author        Sajjad Hossain Sagor <sagorh672@gmail.com>
  */
 

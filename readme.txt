@@ -2,7 +2,7 @@
 Tags: disposable-email-blocker, temporary-email-blocker, blocker, temporary-email, gravity-forms
 Contributors: sajjad67
 Author: Sajjad Hossain Sagor
-Tested up to: 6.7
+Tested up to: 6.8
 Requires at least: 5.6
 Stable tag: 2.0.0
 Requires PHP: 8.0
@@ -23,9 +23,6 @@ Are You Getting Too Much Spammy Disposable or Temporary Emails Submission On You
 
 Credits
 - https://github.com/andreis/disposable
-
-**Interested in contributing to Disposable Email Blocker - GravityForms?**
-Contact me at sagorh672(at)gmail(dot)com
 
 == Installation ==
 To add a WordPress Plugin using the built-in plugin installer:
@@ -54,6 +51,8 @@ Just after installing Disposable Email Blocker - GravityForms plugin, create or 
 2. Message Edit Screen && Enable/Disable Filtering
 
 == Changelog ==
+= 2.0.1 =
+- Checked for latest wp version 6.8
 = 2.0.0 =
 * Major changes in codebase. Compatibility checkup for latest wp version 6.7
 = 1.0.3 =
