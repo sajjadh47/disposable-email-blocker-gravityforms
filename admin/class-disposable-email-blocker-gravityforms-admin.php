@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the definition of the WP_Edit_Username_Admin class, which
+ * This file contains the definition of the Disposable_Email_Blocker_Gravityforms_Admin class, which
  * is used to load the plugin's admin-specific functionality.
  *
  * @package       Disposable_Email_Blocker_Gravityforms
@@ -101,7 +101,7 @@ class Disposable_Email_Blocker_Gravityforms_Admin {
 	 * to enable or disable disposable email blocking for a specific form and customize
 	 * the error message displayed when a disposable email is detected.
 	 *
-	 * @since    2.0.0
+	 * @since     2.0.0
 	 * @access    public
 	 * @param     array $fields An array of existing form fields.
 	 * @param     array $form   The current Gravity Forms form array.
