@@ -1,5 +1,7 @@
 # Disposable Email Blocker - GravityForms
 
+[![Plugin Banner](https://ps.w.org/disposable-email-blocker-gravityforms/assets/banner-772x250.png)](https://wordpress.org/plugins/disposable-email-blocker-gravityforms/)
+
 **Tags:** disposable-email-blocker, temporary-email-blocker, blocker, temporary-email, gravity-forms \
 **Tested up to:** 6.8 \
 **Requires PHP:** 8.0
