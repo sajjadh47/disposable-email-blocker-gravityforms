@@ -13,7 +13,7 @@
  * Plugin Name:       Disposable Email Blocker - GravityForms
  * Plugin URI:        https://wordpress.org/plugins/disposable-email-blocker-gravityforms/
  * Description:       Prevent From Submitting Any Disposable/Temporary Emails On GravityForms Forms.
- * Version:           2.0.1
+ * Version:           2.0.2
  * Requires at least: 6.5
  * Requires PHP:      8.0
  * Author:            Sajjad Hossain Sagor
@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Currently plugin version.
  */
-define( 'DISPOSABLE_EMAIL_BLOCKER_GRAVITYFORMS_PLUGIN_VERSION', '2.0.1' );
+define( 'DISPOSABLE_EMAIL_BLOCKER_GRAVITYFORMS_PLUGIN_VERSION', '2.0.2' );
 
 /**
  * Define Plugin Folders Path
