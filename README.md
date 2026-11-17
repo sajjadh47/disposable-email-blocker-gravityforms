@@ -3,7 +3,7 @@
 [![Plugin Banner](https://ps.w.org/disposable-email-blocker-gravityforms/assets/banner-1544x500.png)](https://wordpress.org/plugins/disposable-email-blocker-gravityforms/)
 
 **Tags:** disposable-email-blocker, temporary-email-blocker, blocker, temporary-email, gravity-forms \
-**Tested up to:** 7.0 \
+**Tested up to:** 7.1 \
 **Requires PHP:** 8.0
 
 Prevent From Submitting Any Disposable/Temporary Emails On GravityForms Forms.
@@ -59,6 +59,9 @@ Just after installing Disposable Email Blocker - GravityForms plugin, create or 
 ![Message Edit Screen && Enable/Disable Filtering](https://ps.w.org/disposable-email-blocker-gravityforms/assets/screenshot-2.png)
 
 ## Changelog
+
+### 2.0.5
+- Compatibility checkup for latest wp version 7.1
 
 ### 2.0.4
 - Compatibility checkup for latest wp version 7.0
